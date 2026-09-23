@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BriefDesk — summarize documents and emails</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">BriefDesk</span>
+        <span class="brand-tagline">long documents, short briefings</span>
+      </div>
+      <nav class="tabs" role="tablist">
+        <button class="tab-btn is-active" data-tab="summarize" role="tab">Summarize</button>
+        <button class="tab-btn" data-tab="saved" role="tab">Saved <span class="tab-count" id="savedCount"></span></button>
+        <button class="tab-btn" data-tab="history" role="tab">History</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- TAB: SUMMARIZE -->
+      <section id="tab-summarize" class="tab-panel is-active">
+        <div class="hero">
+          <h1>Turn a long read into a <em>short briefing</em>.</h1>
+          <p>Upload a PDF, or paste an article or email, and BriefDesk gives you a plain-language summary, key points, and action items.</p>
+        </div>
+
+        <div class="workspace">
+          <aside class="panel input-panel">
+            <div class="source-tabs">
+              <button type="button" class="source-tab-btn is-active" data-source="file">Upload file</button>
+              <button type="button" class="source-tab-btn" data-source="text">Paste text</button>
+            </div>
+
+            <div id="sourceFile" class="source-panel is-active">
+              <label for="fileInput" class="dropzone" id="dropzone">
+                <span class="dropzone-title">Drop a PDF or .txt file here</span>
+                <span class="dropzone-sub">or click to browse — max 15 MB</span>
+                <input type="file" id="fileInput" accept=".pdf,.txt,application/pdf,text/plain" hidden />
+              </label>
+              <p id="fileName" class="hint"></p>
+            </div>
+
+            <div id="sourceText" class="source-panel">
+              <label for="textInput">Paste article or email text</label>
+              <textarea id="textInput" rows="10" placeholder="Paste the full text here..."></textarea>
+            </div>
+
+            <div class="field-group">
+              <label for="lengthSelect">Summary length</label>
+              <select id="lengthSelect">
+                <option value="short">Short (2-3 sentences)</option>
+                <option value="medium" selected>Medium (4-6 sentences)</option>
+                <option value="detailed">Detailed (8-10 sentences)</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label class="checkbox-inline">
+                <input type="checkbox" id="actionItemsCb" checked />
+                Extract action items / deadlines
+              </label>
+            </div>
+
+            <button id="summarizeBtn" class="btn-primary" type="button">Summarize</button>
+            <p id="formError" class="error-msg" hidden></p>
+          </aside>
+
+          <section class="results-area">
+            <div id="loadingState" class="loading-state" hidden>
+              <div class="spinner" aria-hidden="true"></div>
+              <p>Reading and summarizing...</p>
+            </div>
+
+            <div id="emptyState" class="empty-state">
+              <p>Upload a file or paste some text, then press <strong>Summarize</strong> — your briefing will appear here.</p>
+            </div>
+
+            <div id="resultCard" class="brief-card" hidden></div>
+          </section>
+        </div>
+      </section>
+
+      <!-- TAB: SAVED -->
+      <section id="tab-saved" class="tab-panel">
+        <div class="panel-header">
+          <h2>Saved briefings</h2>
+          <p>Saved locally, in this browser.</p>
+        </div>
+        <div id="savedEmpty" class="empty-state">
+          <p>You don't have any saved briefings yet. Press "Save" on a summary to keep it here.</p>
+        </div>
+        <div id="savedGrid" class="brief-grid"></div>
+      </section>
+
+      <!-- TAB: HISTORY -->
+      <section id="tab-history" class="tab-panel">
+        <div class="panel-header">
+          <h2>Recent summaries</h2>
+          <p>Your last summarized documents, most recent first.</p>
+        </div>
+        <div id="historyEmpty" class="empty-state">
+          <p>You haven't summarized anything yet.</p>
+        </div>
+        <ul id="historyList" class="history-list"></ul>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
